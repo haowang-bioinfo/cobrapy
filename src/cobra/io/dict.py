@@ -85,7 +85,7 @@ def _fix_type(
     """
     # Because numpy floats can not be pickled to json
     if isinstance(value, str):
-        return str(value)
+        return f'"{value}"'
     if isinstance(value, np.float):
         return float(value)
     if isinstance(value, np.bool):
