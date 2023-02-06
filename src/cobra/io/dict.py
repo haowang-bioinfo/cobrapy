@@ -9,6 +9,7 @@ import numpy as np
 from ..core import Gene, Metabolite, Model, Reaction
 from ..util.solver import set_objective
 
+from ruamel.yaml.scalarstring import DoubleQuotedScalarString
 
 if TYPE_CHECKING:
     from cobra import Object
@@ -85,7 +86,7 @@ def _fix_type(
     """
     # Because numpy floats can not be pickled to json
     if isinstance(value, str):
-        return f'"{value}"'
+        return DoubleQuotedScalarString(value)
     if isinstance(value, np.float):
         return float(value)
     if isinstance(value, np.bool):
