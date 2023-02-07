@@ -94,7 +94,7 @@ def _fix_type(
     if isinstance(value, set):
         return list(value)
     if isinstance(value, dict):
-        return OrderedDict((key, value[key]) for key in sorted(value))
+        return OrderedDict((key, _fix_type(value[key])) for key in sorted(value))
     # handle legacy Formula type
     if value.__class__.__name__ == "Formula":
         return str(value)
