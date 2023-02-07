@@ -9,6 +9,7 @@ import numpy as np
 from ..core import Gene, Metabolite, Model, Reaction
 from ..util.solver import set_objective
 
+from ruamel.yaml.scalarstring import DoubleQuotedScalarString
 
 if TYPE_CHECKING:
     from cobra import Object
@@ -85,15 +86,15 @@ def _fix_type(
     """
     # Because numpy floats can not be pickled to json
     if isinstance(value, str):
-        return str(value)
+        return DoubleQuotedScalarString(value)
     if isinstance(value, np.float):
         return float(value)
     if isinstance(value, np.bool):
         return bool(value)
-    if isinstance(value, set):
-        return list(value)
+    if isinstance(value, list):
+        return list(map(lambda x: _fix_type(x), value))
     if isinstance(value, dict):
-        return OrderedDict((key, value[key]) for key in sorted(value))
+        return OrderedDict((key, _fix_type(value[key])) for key in sorted(value))
     # handle legacy Formula type
     if value.__class__.__name__ == "Formula":
         return str(value)

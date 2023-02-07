@@ -55,7 +55,6 @@ class CobraYAML(YAML):
 
 yaml = CobraYAML(typ="rt")
 
-
 def to_yaml(model: "Model", sort: bool = False, **kwargs: Any) -> str:
     """Return the model as a YAML string.
 
@@ -133,6 +132,7 @@ def save_yaml_model(
     """
     obj = model_to_dict(model, sort=sort)
     obj["version"] = YAML_SPEC
+    yaml.preserve_quotes = True
     if isinstance(filename, str):
         with io.open(filename, "w") as file_handle:
             yaml.dump(obj, file_handle, **kwargs)
