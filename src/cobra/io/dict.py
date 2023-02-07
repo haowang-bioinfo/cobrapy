@@ -91,8 +91,8 @@ def _fix_type(
         return float(value)
     if isinstance(value, np.bool):
         return bool(value)
-    if isinstance(value, set):
-        return list(value)
+    if isinstance(value, list):
+        return list(map(lambda x: _fix_type(x), value))
     if isinstance(value, dict):
         return OrderedDict((key, _fix_type(value[key])) for key in sorted(value))
     # handle legacy Formula type
